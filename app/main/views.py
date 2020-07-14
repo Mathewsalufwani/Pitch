@@ -23,3 +23,22 @@ def profile(uname):
         abort(404)
 
     return render_template("profile/profile.html", user = user)
+
+@main.route('/user/<name>/updateprofile', methods = ['POST','GET'])
+@login_required
+def update_profile(name):
+    user = User.query.filter_by(username = name).first()
+    if user is None:
+        abort(404)
+
+    form = Update_Profile()
+
+    if form.validate_on_submit():
+        user.bio = form.bio.data
+
+        db.session.add(user)
+        db.session.commit()
+
+        return redirect(url_for('.profile',uname=user.username))
+
+    return render_template('profile/update.html', form=form)
