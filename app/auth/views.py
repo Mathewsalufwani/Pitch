@@ -20,6 +20,13 @@ def login():
     title = "pitches login"
     return render_template('auth/login.html',login_form = login_form,title=title)
 
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been successfully logged out')
+    return redirect(url_for("main.index"))
+
 @auth.route('/register',methods = ["GET","POST"])
 def register():
     form = RegistrationForm()
@@ -33,10 +40,3 @@ def register():
         return redirect(url_for('auth.login'))
         title = "New Account"
     return render_template('auth/register.html', registration_form=form)
-
-@auth.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    flash('You have been successfully logged out')
-    return redirect(url_for("main.index"))
