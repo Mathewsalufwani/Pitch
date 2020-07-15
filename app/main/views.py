@@ -32,7 +32,7 @@ def pitch():
 def interview():
     comment = Comment.query.all()
     interview = Pitch.query.filter_by(category='Interview Pitch').all()
-    return render_template('interview.html', comment=comment)
+    return render_template('interview.html',interview=interview, comment=comment)
 
 @main.route('/promotion')
 def promotion():
@@ -49,7 +49,7 @@ def product():
 def pickup():
     comments = Comment.query.all()
     pickup = Pitch.query.filter_by(category = 'Pickup Lines').all()
-    return render_template('pickup.html', pickup=pickup,comments=comment)        
+    return render_template('pickup.html', pickup=pickup,comments=comments)        
     
 @main.route('/user/<uname>')
 def profile(uname):
@@ -114,7 +114,7 @@ def new_pitch():
     form = Pitch_Form()    
 
     if form.validate_on_submit():
-        pitch = Pitch(title = form.title.data, category =form.category.data, content = form.content.data,upvote = 0,downvote = 0,user_id=current_user.id)
+        pitch = Pitch(title = form.title.data, category =form.category.data, content = form.content.data,)
 
         pitch.save_pitch()
         
